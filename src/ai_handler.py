@@ -11,7 +11,6 @@ def send_prompt(prompt, model):
     except ResponseError as e:
         if e.status_code == 404:
             raise ValueError(
-                f"Model '{model}' is not installed. "
-                "Check the name with `ollama list`."
+                f"Error Found: Please Find Model"
             ) from e
         raise
