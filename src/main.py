@@ -1,18 +1,13 @@
-# make sure to enable michrophone input 
-
 import sounddevice as sd
 from faster_whisper import WhisperModel
 import ai_handler as ai
 import time
+from config import *
 
 SAMPLE_RATE = 16000
 model = WhisperModel("base", device="cpu", compute_type="int8")
 
-ai_model = "llama3.2:1b"
-
-
-
-def listen(seconds=5):
+def listen(seconds=listening_time):
     print("Listening...")
     audio = sd.rec(
         int(seconds * 16000),
@@ -33,24 +28,24 @@ def listen(seconds=5):
     #print("Raw segments:", [s.text for s in segments])
     return " ".join(s.text.strip() for s in segments)
 
-start_listen = time.time()
+#start_listen = time.time()
 
 text = listen()
 print("You said:", text)
 
-end_listen = time.time()
+#end_listen = time.time()
 
-listen_time = end_listen - start_listen
+#listen_time = end_listen - start_listen
 
 final_prompt = f"{text} \nOutput the result in less than 2 sentences to keep it simple"
 
 
-start_ai = time.time()
-response = ai.send_prompt(final_prompt, ai_model)
+#start_ai = time.time()
+response = ai.send_prompt(final_prompt, model_name)
 print(response)
-end_ai = time.time()
+#end_ai = time.time()
 
-ai_time = end_ai - start_ai
+#ai_time = end_ai - start_ai
 
-print(f"Listen Time: {listen_time} Seconds")
-print(f"AI Time: {ai_time} Seconds")
+#print(f"Listen Time: {listen_time} Seconds")
+#print(f"AI Time: {ai_time} Seconds")
